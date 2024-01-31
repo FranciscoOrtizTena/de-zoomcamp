@@ -4,4 +4,10 @@
 
 ## Question 1. Knowing docker tags
 
-Run the command to get information 
+Run the command to get information on Docket
+
+'''bash
+docker --help
+'''
+
+

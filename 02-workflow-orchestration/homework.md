@@ -4,9 +4,14 @@ Attengion: At the end of the submission form, you will be required to include a 
 
 For the homework, we'll be working with the green taxi dataser located here:
 
-https://github.com/DataTalksClub/nyc-tlc-data/releases/tag/green/download
+`https://github.com/DataTalksClub/nyc-tlc-data/releases/tag/green/download`
 
-You may need to reference the link below to download via Python in Mage:
+`You may need to reference the link below to download via Python in Mage:`
 
 https://github.com/DataTalksClub/nyc-tlc-data/releases/download/green/
 
+## Assginment
+
+The goal will be to construct an ETL pipeline that loads the data, performs some transformations, and writes the data to database (and Google Clod!).
+
+- Create a new pipeline, call it `green_taxi_etl`

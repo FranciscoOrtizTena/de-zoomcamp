@@ -70,3 +70,125 @@ def load_data(*args, **kwargs):
 
     return df_final
 ```
+
+- Add a transformer block and perform the following:
+  - Remove rows where the passenger count is equal to 0 and the trip distance is equal to zero.
+  - Create a new column `lpep_pickup_date` by converting `lpep_pickup_datetime` to a date.
+  - Rename columns in Camel Case to Snake Case, e.g. `VendorID`to `vendor_id`
+
+Here is the Python code:
+
+```Python
+@transformer
+def transform(data, *args, **kwargs):
+    # Removing the rows with passenger count equal 0
+    data = data[data['passenger_count'] > 0]
+
+    # Removing rows with trip distance equal 0
+    data = data[data['trip_distance'] > 0]
+
+    # Creating a new column lpep_pickup_date by converting lpep_pickup_datetime to a date
+    data['lpep_pickup_date'] = data['lpep_pickup_datetime'].dt.date
+
+    # Renaming the clumns in Camel Case to Snake Case
+    data.columns = (data.columns
+                .str.replace('(?<=[a-z])(?=[A-Z])', '_', regex=True)
+                .str.lower()
+             )
+    
+    return data
+```
+
+  - Add three assertions:
+    - `vendor_id` is one of the existing values in the column (currently)
+    - `passenger_count`is greater than 0
+    - `trip_distance`is greater than 0
+
+With the following code 
+
+```Python
+@test
+def test_output(output, *args) -> None:
+    #Assert for vendor_id column
+    assert 'vendor_id' in output.columns, 'There no exist the column vendor_id'
+    
+    #Assert for pasenger_count is greater than 0
+    assert output['passenger_count'].isin([0]).sum() == 0, 'There are rides with zero passengers'
+
+    #Assert for tripdistance is greater than 0
+    assert output['trip_distance'].isin([0]).sum() == 0, 'There are rides with zero trip distance'
+```
+
+- Using a Postgres data exporter (SQL or Python), write the dataset to a table called `green_taxi` in a schema `mage`. Replace the table if it already exists.
+
+Using the followin code in the data exporter block
+
+```Python
+def export_data_to_postgres(df: DataFrame, **kwargs) -> None:
+    """
+    Template for exporting data to a PostgreSQL database.
+    Specify your configuration settings in 'io_config.yaml'.
+
+    Docs: https://docs.mage.ai/design/data-loading#postgresql
+    """
+    schema_name = 'mage'  # The name of the schema
+    table_name = 'green_taxi'  # The name of the table
+    config_path = path.join(get_repo_path(), 'io_config.yaml')
+    config_profile = 'dev'
+
+    with Postgres.with_config(ConfigFileLoader(config_path, config_profile)) as loader:
+        loader.export(
+            df,
+            schema_name,
+            table_name,
+            index=False,  
+            if_exists='replace',  # Replacing the table if it exists.
+        )
+```
+
+- Write your data as Parquet files to a bucket in GCP, partitioned by `lpep_pickup_date`. Use the `pyarrow' library!
+
+I use the following block for data loading to GCS
+
+```Python
+
+#Loading the required libraries
+
+import pyarrow as pa
+import pyarrow.parquet as pq
+import os
+
+if 'data_exporter' not in globals():
+    from mage_ai.data_preparation.decorators import data_exporter
+
+#Setting the credentials to connect to GCS
+
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "credentials"
+
+#Setting the name of the bucket_name and the object_key
+
+bucket_name = 'your_bucket_name' #The original bucket name is erased
+
+table_name = "green_taxi_data" #The green taxi data
+
+root_path = f'{bucket_name}/{table_name}' Include a root path for each day
+
+#Following is the function to load the data to GCS
+
+@data_exporter
+def export_data(data, *args, **kwargs):
+
+    table = pa.Table.from_pandas(data)
+
+    gcs = pa.fs.GcsFileSystem()
+
+    pq.write_to_dataset(
+        table, 
+        root_path =root_path,
+        partition_cols = ['lpep_pickup_date'],
+        filesystem = gcs 
+    )
+```
+
+- Schedule your pipeline to run daily at 5AM UTC
+

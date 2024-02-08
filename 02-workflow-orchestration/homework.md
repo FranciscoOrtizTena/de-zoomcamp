@@ -202,7 +202,7 @@ Once the dataset is loaded, what is the shape of the data?
 
 The answer can be checked once you load the data in Mage.
 
-![Mage answer question 1](Answer_question_1)
+![Mage answer question 1](Answer_question_1.png)
 
 ## Question 2. Data Transformation
 

@@ -6,13 +6,13 @@ For the homework, we'll be working with the green taxi dataser located here:
 
 `https://github.com/DataTalksClub/nyc-tlc-data/releases/tag/green/download`
 
-`You may need to reference the link below to download via Python in Mage:`
+You may need to reference the link below to download via Python in Mage:
 
-https://github.com/DataTalksClub/nyc-tlc-data/releases/download/green/
+`https://github.com/DataTalksClub/nyc-tlc-data/releases/download/green/`
 
-## Assginment
+## Assignment
 
-The goal will be to construct an ETL pipeline that loads the data, performs some transformations, and writes the data to database (and Google Clod!).
+The goal will be to construct an ETL pipeline that loads the data, performs some transformations, and writes the data to database (and Google Cloud!).
 
 - Create a new pipeline, call it `green_taxi_etl`
 - Add a data loader block and use Pandas to read data for the final quarter of 2020 (months `10`, `11`, `12`).
@@ -125,12 +125,7 @@ Using the followin code in the data exporter block
 
 ```Python
 def export_data_to_postgres(df: DataFrame, **kwargs) -> None:
-    """
-    Template for exporting data to a PostgreSQL database.
-    Specify your configuration settings in 'io_config.yaml'.
 
-    Docs: https://docs.mage.ai/design/data-loading#postgresql
-    """
     schema_name = 'mage'  # The name of the schema
     table_name = 'green_taxi'  # The name of the table
     config_path = path.join(get_repo_path(), 'io_config.yaml')
@@ -173,7 +168,7 @@ table_name = "green_taxi_data" #The green taxi data
 
 root_path = f'{bucket_name}/{table_name}' Include a root path for each day
 
-#Following is the function to load the data to GCS
+#Following, it is the function to load the data to GCS
 
 @data_exporter
 def export_data(data, *args, **kwargs):
@@ -198,14 +193,16 @@ def export_data(data, *args, **kwargs):
 
 ## Question 1. Data Loading
 
-Once the dataset is loaded, what is the shape of the data¿
+Once the dataset is loaded, what is the shape of the data?
 
 - `266,855 rows x 20 columns`
 - 544,898 rows x 18 columns
 - 544,898 rows x 20 columns
 - 133,744 rows x 20 columns
 
-The answer can be checked once you load the data.
+The answer can be checked once you load the data in Mage.
+
+![Mage answer question 1](Answer_question_1)
 
 ## Question 2. Data Transformation
 
@@ -261,7 +258,7 @@ How many columns need to be renamed to snake case?
 - 2
 - `4`
 
-Since we are using the same datatypes ad date parsing shown in the course. Here is the dictionary 
+Since we are using the same datatypes and date parsing shown in the course. Here is the dictionary 
 
 ```Python
     taxi_dtypes = {

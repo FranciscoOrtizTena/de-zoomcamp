@@ -194,3 +194,105 @@ def export_data(data, *args, **kwargs):
 
 ![Schedule run daily at 5AM](Pipepline_run_daily_configuration)
 
+## Questions
+
+## Question 1. Data Loading
+
+Once the dataset is loaded, what is the shape of the data¿
+
+- `266,855 rows x 20 columns`
+- 544,898 rows x 18 columns
+- 544,898 rows x 20 columns
+- 133,744 rows x 20 columns
+
+The answer can be checked once you load the data.
+
+## Question 2. Data Transformation
+
+Upon filtering the data where the passenger count is greater than 0 and the trip distance is greater than zero, how many rows are left?
+
+- 544,897 rows
+- 266,855 rows
+- `139,370 rows`
+- 266,856 rows
+
+Once the data is in Postgres you can run the following SQL command.
+
+```SQL
+SELECT COUNT(1)
+FROM mage.green_taxi;
+```
+
+The answer is 139,370 rows.
+
+## Question 3. Data Transformation
+
+Which of the following creates a new column `lpep_pickup_date` by converting `lpep_pickup_datetime` to a date?
+
+- `data = data['lpep_pickup_datetime'].date`
+- `data('lpep_pickup_date') = data['lpep_pickup_datetime'].date`
+- `data['lpep_pickup_date'] = data['lpep_pickup_datetime'].dt.date`
+- `data['lpep_pickup_date'] = data['lpep_pickup_datetime'].dt().date()`
+
+The correct answer is `data['lpep_pickup_date'] = data['lpep_pickup_datetime'].dt.date`, the other code lines will throw an error.
+
+## Question 4. Data Transformation
+
+What are the existing values of VendorID in the dataset?
+
+- 1, 2, or 3
+- `1 or 2`
+- 1, 2, 3, 4
+- 1
+
+Using the following SQL command in Postgres:
+
+```SQL
+SELECT DISTINCT vendor_id
+FROM mage.green_taxi;
+```
+
+## Question 5. Data Transformation
+
+How many columns need to be renamed to snake case?
+
+- 3
+- 6
+- 2
+- `4`
+
+Since we are using the same datatypes ad date parsing shown in the course. Here is the dictionary 
+
+```Python
+    taxi_dtypes = {
+                    'VendorID': pd.Int64Dtype(),
+                    'passenger_count': pd.Int64Dtype(),
+                    'trip_distance': float,
+                    'RatecodeID':pd.Int64Dtype(),
+                    'store_and_fwd_flag':str,
+                    'PULocationID':pd.Int64Dtype(),
+                    'DOLocationID':pd.Int64Dtype(),
+                    'payment_type': pd.Int64Dtype(),
+                    'fare_amount': float,
+                    'extra':float,
+                    'mta_tax':float,
+                    'tip_amount':float,
+                    'tolls_amount':float,
+                    'improvement_surcharge':float,
+                    'total_amount':float,
+                    'congestion_surcharge':float
+                }
+```
+
+Therefore, `VendorID`, `RatecodeID`, `PULocationID`, and `DOLocationID` (4) need to be renamed to snake case.
+
+## Question 6. Data Exporting
+
+Once exported, how many partitions (folders) are present in Google Cloud?
+
+- 96
+- 56
+- 67
+- 108
+
+Here is a photo of the 

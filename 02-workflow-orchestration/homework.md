@@ -294,6 +294,6 @@ Once exported, how many partitions (folders) are present in Google Cloud?
 
 Here is a photo of the partitions obtained in GCS
 
-![Partition folders in GCS](Number_of_partitions)
+![Partition folders in GCS](Number_of_partitions.png)
 
 The closest one is 96.

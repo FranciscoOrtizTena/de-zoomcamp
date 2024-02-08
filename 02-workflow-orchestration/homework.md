@@ -90,7 +90,7 @@ def transform(data, *args, **kwargs):
     # Creating a new column lpep_pickup_date by converting lpep_pickup_datetime to a date
     data['lpep_pickup_date'] = data['lpep_pickup_datetime'].dt.date
 
-    # Renaming the clumns in Camel Case to Snake Case
+    # Renaming the columns in Camel Case to Snake Case
     data.columns = (data.columns
                 .str.replace('(?<=[a-z])(?=[A-Z])', '_', regex=True)
                 .str.lower()
@@ -141,7 +141,7 @@ def export_data_to_postgres(df: DataFrame, **kwargs) -> None:
         )
 ```
 
-- Write your data as Parquet files to a bucket in GCP, partitioned by `lpep_pickup_date`. Use the `pyarrow' library!
+- Write your data as Parquet files to a bucket in GCP, partitioned by `lpep_pickup_date`. Use the `pyarrow` library!
 
 I use the following block for data loading to GCS
 

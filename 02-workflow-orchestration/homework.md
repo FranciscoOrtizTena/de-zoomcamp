@@ -192,3 +192,5 @@ def export_data(data, *args, **kwargs):
 
 - Schedule your pipeline to run daily at 5AM UTC
 
+![Schedule run daily at 5AM](02-workflow-orchestration/Pipepline_run_daily_configuration)
+

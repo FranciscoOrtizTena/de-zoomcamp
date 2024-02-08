@@ -290,9 +290,13 @@ Therefore, `VendorID`, `RatecodeID`, `PULocationID`, and `DOLocationID` (4) need
 
 Once exported, how many partitions (folders) are present in Google Cloud?
 
-- 96
+- `96`
 - 56
 - 67
 - 108
 
-Here is a photo of the 
+Here is a photo of the partitions obtained in GCS
+
+![Partition folders in GCS](Number_of_partitions)
+
+The closest one is 96.

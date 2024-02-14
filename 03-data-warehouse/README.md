@@ -5,8 +5,11 @@ Attention: At the end of the submission form, you will be required to include a 
 Important Note:
 
 For this homework we will be using the 2022 Green Taxi Trip Record Parquet Files from the New York City Taxi Data found here:
+
 https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
+
 If you are using orchestration as Mage, Airflow or Project do not load the data into Big Query using the orchestrator.
+
 Load the files into a bucket.
 
 I use the following Mage code.
@@ -114,7 +117,7 @@ Question 1: What is the count of records for the 2022 Green Taxi Data?
 - 1,936,423
 - 253,647
 
-There are several ways to obtain this answer. You can take it from Mage when loading the information. You can look in the `Details`tab in BigQuery under the section `Storage Information`in number of rows. Finally, you can obtain the information by running the following query:
+There are several ways to obtain this answer. You can take it from Mage when loading the information. You can look in the `Details` tab in BigQuery under the section `Storage Information` in number of rows. Finally, you can obtain the information by running the following query:
 
 ```SQL
 SELECT COUNT(*) AS total_rows

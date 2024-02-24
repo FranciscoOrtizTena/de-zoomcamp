@@ -7,6 +7,8 @@ This means that in this homework we use the following data [Datasets list](https
 * Green taxi data - Years 2019 and 2020 
 * fhv data - Year 2019. 
 
+To load the information I used the [week3/extras](https://github.com/DataTalksClub/data-engineering-zoomcamp/blob/main/03-data-warehouse/extras) but specifying the schema in each table.
+
 We will use the data loaded for:
 
 * Building a source table: `stg_fhv_tripdata`
@@ -22,7 +24,7 @@ instead. If you have access to GCP, you don't need to do it for local Postgres -
 
 **What happens when we execute dbt build --vars '{'is_test_run':'true'}'**
 You'll need to have completed the ["Build the first dbt models"](https://www.youtube.com/watch?v=UVI30Vxzd6c) video. 
-- 'It's the same as running *dbt build*'
+- `It's the same as running *dbt build*`
 - It applies a _limit 100_ to all of our models
 - It applies a _limit 100_ only to our staging models
 - Nothing
@@ -36,7 +38,9 @@ Since we are setting the variable 'is_test_run' 'true', and is the same as as th
 - The code that has been merged into the main branch
 - The code that is behind the creation object on the dbt_cloud_pr_ schema
 - The code from any development branch that has been opened based on main
-- The code from the development branch we are requesting to merge to main
+- `The code from the development branch we are requesting to merge to main`
+
+This is because the purpose of CI, especially when integrated with dbt and version control systems like GitHub or GitLab, is to automatically test the changes proposed in a pull request (PR) — that is, the code changes made in a development branch that is being requested to merge into the main branch. The CI process ensures that these changes do not break or adversely affect the existing codebase before they are merged. The temporary schema mentioned in your description is typically used to isolate and test these changes without affecting the main or production environment.
 
 
 ### Question 3 (2 points)
@@ -129,7 +133,7 @@ on fhv_tripdata.dropoff_locationid = dropoff_zone.locationid
 ```
 
 - 12998722
-- '22998722'
+- `22998722`
 - 32998722
 - 42998722
 
@@ -145,22 +149,7 @@ Create a dashboard with some tiles that you find interesting to explore the data
 
 - FHV
 - Green
-- Yellow
+- `Yellow`
 - FHV and Green
 
-
-## Submitting the solutions
-
-* Form for submitting: https://courses.datatalks.club/de-zoomcamp-2024/homework/hw4
-
-Deadline: 22 February (Thursday), 22:00 CET
-
-
-## Solution (To be published after deadline)
-
-* Video: 
-* Answers:
-  * Question 1: 
-  * Question 2: 
-  * Question 3: 
-  * Question 4: 
+![Dashboard](question_4.png)

@@ -135,7 +135,7 @@ on fhv_tripdata.dropoff_locationid = dropoff_zone.locationid
 
 The answer is '22998722'
 
-![Row count](Count of records.png)
+![Row count](Count_of_records.png)
 
 ### Question 4 (2 points)
 

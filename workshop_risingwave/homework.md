@@ -63,8 +63,28 @@ CREATE MATERIALIZED VIEW latest_dropoff_time AS
 
 Create a materialized view to compute the average, min and max trip time **between each taxi zone**.
 
-Note that we consider the do not consider `a->b` and `b->a` as the same trip pair.
+```SQL
+CREATE MATERIALIZED VIEW taxi_trips_avg AS
+SELECT
+  tz1.zone AS pickup_zone,
+  tz2.zone AS dropoff_zone,
+  COUNT(*) as number_trips,
+  AVG(td.tpep_dropoff_datetime-td.tpep_pickup_datetime) AS avg_trip_time,
+  MIN(td.tpep_dropoff_datetime-td.tpep_pickup_datetime) AS min_trip_time,
+  MAX(td.tpep_dropoff_datetime-td.tpep_pickup_datetime) AS max_trip_time
+FROM  
+  trip_data td 
+JOIN
+  taxi_zone tz1 ON td.pulocationid = tz1.location_id
+JOIN
+  taxi_zone tz2 ON td.dolocationid = tz2.location_id
+GROUP BY
+  tz1.zone, tz2.zone;
+```
+
+Note: Do not consider `a->b` and `b->a` as the same trip pair.
 So as an example, you would consider the following trip pairs as different pairs:
+
 ```plaintext
 Yorkville East -> Steinway
 Steinway -> Yorkville East
@@ -73,11 +93,23 @@ Steinway -> Yorkville East
 From this MV, find the pair of taxi zones with the highest average trip time.
 You may need to use the [dynamic filter pattern](https://docs.risingwave.com/docs/current/sql-pattern-dynamic-filters/) for this.
 
+```SQL
+SELECT
+  *
+FROM 
+  taxi_trips_avg
+ORDER BY  
+  avg_trip_time DESC
+LIMIT 10;
+```
+
+![Question 1](Question_1.png)
+
 Bonus (no marks): Create an MV which can identify anomalies in the data. For example, if the average trip time between two zones is 1 minute,
 but the max trip time is 10 minutes and 20 minutes respectively.
 
 Options:
-1. Yorkville East, Steinway
+1. `Yorkville East, Steinway`
 2. Murray Hill, Midwood
 3. East Flatbush/Farragut, East Harlem North
 4. Midtown Center, University Heights/Morris Heights

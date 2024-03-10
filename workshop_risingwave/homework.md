@@ -57,7 +57,7 @@ CREATE MATERIALIZED VIEW latest_dropoff_time AS
 
 </details>
 
-![Quesion 0](quesion_0.png)
+![Question 0](question_0.png)
 
 ## Question 1
 

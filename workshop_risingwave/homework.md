@@ -64,11 +64,10 @@ CREATE MATERIALIZED VIEW latest_dropoff_time AS
 Create a materialized view to compute the average, min and max trip time **between each taxi zone**.
 
 ```SQL
-CREATE MATERIALIZED VIEW taxi_trips_avg AS
+CREATE MATERIALIZED VIEW taxi_trips_stats AS
 SELECT
   tz1.zone AS pickup_zone,
   tz2.zone AS dropoff_zone,
-  COUNT(*) as number_trips,
   AVG(td.tpep_dropoff_datetime-td.tpep_pickup_datetime) AS avg_trip_time,
   MIN(td.tpep_dropoff_datetime-td.tpep_pickup_datetime) AS min_trip_time,
   MAX(td.tpep_dropoff_datetime-td.tpep_pickup_datetime) AS max_trip_time
@@ -105,16 +104,14 @@ LIMIT 10;
 
 ![Question 1](Question_1.png)
 
-Bonus (no marks): Create an MV which can identify anomalies in the data. For example, if the average trip time between two zones is 1 minute,
-but the max trip time is 10 minutes and 20 minutes respectively.
-
 Options:
 1. `Yorkville East, Steinway`
 2. Murray Hill, Midwood
 3. East Flatbush/Farragut, East Harlem North
 4. Midtown Center, University Heights/Morris Heights
 
-p.s. The trip time between taxi zones does not take symmetricity into account, i.e. `A -> B` and `B -> A` are considered different trips. This applies to subsequent questions as well.
+Bonus (no marks): Create an MV which can identify anomalies in the data. For example, if the average trip time between two zones is 1 minute,
+but the max trip time is 10 minutes and 20 minutes respectively.
 
 ## Question 2
 

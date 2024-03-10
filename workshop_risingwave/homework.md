@@ -141,9 +141,9 @@ GROUP BY
 Then we can query with 
 
 ```SQL
-SELECT COUNT(*)
+SELECT *
 FROM taxi_trips_average_count
-WHERE "pickup_zone" = 'Queensbridge/Ravenswood'
+WHERE "pickup_zone" = 'Yorkville East'
 AND "dropoff_zone" = 'Steinway';
 ```
 
@@ -153,7 +153,7 @@ Options:
 3. 10
 4. `1`
 
-
+![Question 2](Question_2.png)
 
 ## Question 3
 
@@ -166,8 +166,31 @@ to create a filter condition based on the latest pickup time.
 
 NOTE: For this question `17 hours` was picked to ensure we have enough data to work with.
 
+The query is
+
+```SQL
+SELECT 
+  tz.zone as pickup_zone,
+  count(*) as number_trips
+FROM 
+  trip_data td
+JOIN 
+  taxi_zone tz ON td.pulocationid = tz.location_id
+WHERE 
+  td.tpep_pickup_datetime >= (SELECT MAX(tpep_pickup_datetime)-interval '17 hours' FROM trip_data)
+  AND
+  td.tpep_pickup_datetime <= (SELECT MAX(tpep_pickup_datetime) FROM trip_data)
+GROUP BY
+  pickup_zone
+ORDER BY
+  number_trips DESC
+LIMIT 3;
+```
+
 Options:
 1. Clinton East, Upper East Side North, Penn Station
-2. LaGuardia Airport, Lincoln Square East, JFK Airport
+2. `LaGuardia Airport, Lincoln Square East, JFK Airport`
 3. Midtown Center, Upper East Side South, Upper East Side North
 4. LaGuardia Airport, Midtown Center, Upper East Side North
+
+![Question 3](Question_3.png)

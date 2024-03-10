@@ -64,7 +64,7 @@ CREATE MATERIALIZED VIEW latest_dropoff_time AS
 Create a materialized view to compute the average, min and max trip time **between each taxi zone**.
 
 ```SQL
-CREATE MATERIALIZED VIEW taxi_trips_stats AS
+CREATE MATERIALIZED VIEW taxi_trips_average AS
 SELECT
   tz1.zone AS pickup_zone,
   tz2.zone AS dropoff_zone,
@@ -96,7 +96,7 @@ You may need to use the [dynamic filter pattern](https://docs.risingwave.com/doc
 SELECT
   *
 FROM 
-  taxi_trips_avg
+  taxi_trips_average
 ORDER BY  
   avg_trip_time DESC
 LIMIT 10;
@@ -117,11 +117,43 @@ but the max trip time is 10 minutes and 20 minutes respectively.
 
 Recreate the MV(s) in question 1, to also find the **number of trips** for the pair of taxi zones with the highest average trip time.
 
+The query for the materialized view is the following
+
+```SQL
+CREATE MATERIALIZED VIEW taxi_trips_average_count AS
+SELECT
+  tz1.zone AS pickup_zone,
+  tz2.zone AS dropoff_zone,
+  COUNT(*) as number_trips,
+  AVG(td.tpep_dropoff_datetime-td.tpep_pickup_datetime) AS avg_trip_time,
+  MIN(td.tpep_dropoff_datetime-td.tpep_pickup_datetime) AS min_trip_time,
+  MAX(td.tpep_dropoff_datetime-td.tpep_pickup_datetime) AS max_trip_time
+FROM  
+  trip_data td 
+JOIN
+  taxi_zone tz1 ON td.pulocationid = tz1.location_id
+JOIN
+  taxi_zone tz2 ON td.dolocationid = tz2.location_id
+GROUP BY
+  tz1.zone, tz2.zone;
+```
+
+Then we can query with 
+
+```SQL
+SELECT COUNT(*)
+FROM taxi_trips_average_count
+WHERE "pickup_zone" = 'Queensbridge/Ravenswood'
+AND "dropoff_zone" = 'Steinway';
+```
+
 Options:
 1. 5
 2. 3
 3. 10
-4. 1
+4. `1`
+
+
 
 ## Question 3
 
